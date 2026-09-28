@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Trabajos{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h1>
+            Trabajos
+        </h1>
+
+        <p class="text-secondary mb-0">
+            Trabajos registrados en el taller
+        </p>
+
+    </div>
+
+    <a
+        href="{% url 'trabajo_crear' %}"
+        class="btn btn-primary"
+    >
+        + Nuevo trabajo
+    </a>
+
+</div>
+
+
+<div class="card shadow-sm">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Estado</th>
+                        <th>Criticidad</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for trabajo in trabajos %}
+
+                    <tr>
+
+                        <td>
+                            #{{ trabajo.id }}
+                        </td>
+
+                        <td>
+
+                            {% if trabajo.estado == "Completado" %}
+
+                                <span class="badge text-bg-success status-badge">
+                                    Completado
+                                </span>
+
+                            {% elif trabajo.estado == "En progreso" %}
+
+                                <span class="badge text-bg-primary status-badge">
+                                    En progreso
+                                </span>
+
+                            {% elif trabajo.estado == "Cancelado" %}
+
+                                <span class="badge text-bg-danger status-badge">
+                                    Cancelado
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-secondary status-badge">
+                                    {{ trabajo.estado }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if trabajo.criticidad == "Urgente" %}
+
+                                <span class="badge text-bg-danger">
+                                    Urgente
+                                </span>
+
+                            {% elif trabajo.criticidad == "Alta" %}
+
+                                <span class="badge text-bg-warning">
+                                    Alta
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-success">
+                                    Baja
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ trabajo.descripcion|truncatechars:70 }}
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{% url 'trabajo_detalle' trabajo.id %}"
+                                class="btn btn-sm btn-outline-primary"
+                            >
+                                Ver
+                            </a>
+
+                            <a
+                                href="{% url 'trabajo_editar' trabajo.id %}"
+                                class="btn btn-sm btn-outline-secondary"
+                            >
+                                Editar
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="text-center py-5 text-secondary"
+                        >
+                            No hay trabajos registrados.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

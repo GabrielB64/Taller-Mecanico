@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}
+Trabajo #{{ trabajo.id }}
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h1>
+            Trabajo #{{ trabajo.id }}
+        </h1>
+
+        <p class="text-secondary">
+            Detalle del trabajo
+        </p>
+
+    </div>
+
+    <a
+        href="{% url 'trabajo_editar' trabajo.id %}"
+        class="btn btn-primary"
+    >
+        ✏️ Editar
+    </a>
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="mb-4">
+                    Información del trabajo
+                </h5>
+
+
+                <div class="mb-4">
+
+                    <label class="text-secondary">
+                        Descripción
+                    </label>
+
+                    <div class="border rounded p-3 mt-1">
+                        {{ trabajo.descripcion|linebreaks }}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label class="text-secondary">
+                        Hechos
+                    </label>
+
+                    <div class="border rounded p-3 mt-1">
+                        {{ trabajo.hechos|linebreaks }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="mb-4">
+                    Estado
+                </h5>
+
+                <p>
+
+                    <strong>Estado:</strong><br>
+
+                    {{ trabajo.estado }}
+
+                </p>
+
+                <p>
+
+                    <strong>Criticidad:</strong><br>
+
+                    {{ trabajo.criticidad }}
+
+                </p>
+
+                <p>
+
+                    <strong>ID:</strong><br>
+
+                    #{{ trabajo.id }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="mt-4">
+
+    <a
+        href="{% url 'trabajos_lista' %}"
+        class="btn btn-outline-secondary"
+    >
+        ← Volver a trabajos
+    </a>
+
+</div>
+
+{% endblock %}

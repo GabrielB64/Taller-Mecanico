@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% if trabajo %}
+    Editar trabajo
+{% else %}
+    Nuevo trabajo
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="mb-4">
+
+    <h1>
+
+        {% if trabajo %}
+            Editar trabajo #{{ trabajo.id }}
+        {% else %}
+            Nuevo trabajo
+        {% endif %}
+
+    </h1>
+
+</div>
+
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            {% if form.non_field_errors %}
+
+                <div class="alert alert-danger">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Estado -->
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.estado.id_for_label }}"
+                    class="form-label"
+                >
+                    Estado
+                </label>
+
+                {{ form.estado }}
+
+                {% for error in form.estado.errors %}
+
+                    <div class="text-danger small">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Criticidad -->
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.criticidad.id_for_label }}"
+                    class="form-label"
+                >
+                    Criticidad
+                </label>
+
+                {{ form.criticidad }}
+
+                {% for error in form.criticidad.errors %}
+
+                    <div class="text-danger small">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Descripción -->
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.descripcion.id_for_label }}"
+                    class="form-label"
+                >
+                    Descripción
+                </label>
+
+                {{ form.descripcion }}
+
+            </div>
+
+
+            <!-- Hechos -->
+
+            <div class="mb-4">
+
+                <label
+                    for="{{ form.hechos.id_for_label }}"
+                    class="form-label"
+                >
+                    Hechos
+                </label>
+
+                {{ form.hechos }}
+
+            </div>
+
+
+            <div class="d-flex gap-2">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    💾 Guardar
+                </button>
+
+                <a
+                    href="{% url 'trabajos_lista' %}"
+                    class="btn btn-outline-secondary"
+                >
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
