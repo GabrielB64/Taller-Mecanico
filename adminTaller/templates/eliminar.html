@@ -1,0 +1,59 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        Confirmar eliminación
+                    </h4>
+                </div>
+
+                <div class="card-body">
+
+                    <p class="fs-5">
+                        ¿Está seguro de que desea eliminar
+                        <strong>{{ object }}</strong>?
+                    </p>
+
+                    <div class="alert alert-warning">
+                        Esta acción no se puede deshacer.
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ cancel_url }}"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+```

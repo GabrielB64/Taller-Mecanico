@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 
 from .models import (
     Empleado,
@@ -29,11 +30,67 @@ class BootstrapModelForm(forms.ModelForm):
                 field.widget.attrs["class"] = "form-control"
 
 
-class EmpleadoForm(BootstrapModelForm):
+class EmpleadoForm(forms.ModelForm):
+
+    username = forms.CharField(
+        label="Nombre de usuario",
+        max_length=150,
+        required=True
+    )
+
+    password_temporal = forms.CharField(
+        label="Contraseña temporal",
+        widget=forms.PasswordInput,
+        min_length=8,
+        required=True
+    )
 
     class Meta:
         model = Empleado
+        fields = [
+            "nombre",
+            "apellido",
+            "rut",
+            "telefono",
+        ]
 
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(
+                "Este nombre de usuario ya está registrado."
+            )
+
+        return username
+
+    def save(self, commit=True):
+        empleado = super().save(commit=False)
+
+        username = self.cleaned_data["username"]
+        password = self.cleaned_data["password_temporal"]
+
+        usuario = User.objects.create_user(
+            username=username,
+            password=password
+        )
+
+        usuario.is_staff = False
+        usuario.is_superuser = False
+        usuario.save()
+
+        empleado.usuario = usuario
+        empleado.password_change_required = True
+
+        if commit:
+            empleado.save()
+
+        return empleado
+    
+class EmpleadoEditarForm(forms.ModelForm):
+
+    class Meta:
+        model = Empleado
         fields = [
             "nombre",
             "apellido",

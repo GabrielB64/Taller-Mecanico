@@ -1,166 +1,191 @@
+```html
 {% extends "base.html" %}
-
-{% block title %}
-
-{% if empleado %}
-    Editar empleado
-{% else %}
-    Nuevo empleado
-{% endif %}
-
-{% endblock %}
-
 
 {% block content %}
 
-<div class="mb-4">
+<div class="container py-4">
 
-    <h1 class="fw-bold">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
 
-        {% if empleado %}
-            Editar empleado
-        {% else %}
-            Nuevo empleado
-        {% endif %}
+            <div class="card shadow-sm">
 
-    </h1>
-
-    <p class="text-secondary">
-        {% if empleado %}
-            Modifica los datos del empleado.
-        {% else %}
-            Registra un nuevo empleado en el taller.
-        {% endif %}
-    </p>
-
-</div>
-
-
-<div class="card shadow-sm">
-
-    <div class="card-body">
-
-        <form method="post">
-
-            {% csrf_token %}
-
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger">
-                    {{ form.non_field_errors }}
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        {% if empleado %}
+                            Editar empleado
+                        {% else %}
+                            Crear empleado
+                        {% endif %}
+                    </h4>
                 </div>
-            {% endif %}
 
+                <div class="card-body">
 
-            <div class="row">
+                    <form method="post">
+                        {% csrf_token %}
 
-                <div class="col-md-6 mb-3">
+                        <!-- Datos personales -->
+                        <h5 class="mb-3">Datos del empleado</h5>
 
-                    <label
-                        for="{{ form.nombre.id_for_label }}"
-                        class="form-label"
-                    >
-                        Nombre
-                    </label>
+                        <div class="mb-3">
+                            <label for="{{ form.nombre.id_for_label }}"
+                                   class="form-label">
+                                Nombre
+                            </label>
 
-                    {{ form.nombre }}
+                            {{ form.nombre }}
 
-                    {% for error in form.nombre.errors %}
-                        <div class="text-danger small">
-                            {{ error }}
+                            {% for error in form.nombre.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
 
-                </div>
+                        <div class="mb-3">
+                            <label for="{{ form.apellido.id_for_label }}"
+                                   class="form-label">
+                                Apellido
+                            </label>
 
+                            {{ form.apellido }}
 
-                <div class="col-md-6 mb-3">
-
-                    <label
-                        for="{{ form.apellido.id_for_label }}"
-                        class="form-label"
-                    >
-                        Apellido
-                    </label>
-
-                    {{ form.apellido }}
-
-                    {% for error in form.apellido.errors %}
-                        <div class="text-danger small">
-                            {{ error }}
+                            {% for error in form.apellido.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.rut.id_for_label }}"
+                                   class="form-label">
+                                RUT
+                            </label>
+
+                            {{ form.rut }}
+
+                            {% for error in form.rut.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.telefono.id_for_label }}"
+                                   class="form-label">
+                                Teléfono
+                            </label>
+
+                            {{ form.telefono }}
+
+                            {% for error in form.telefono.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+
+                        <!-- Cuenta de usuario -->
+                        {% if not empleado %}
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3">
+                                Cuenta de acceso
+                            </h5>
+
+                            <div class="alert alert-info">
+                                El empleado recibirá una contraseña
+                                temporal y deberá cambiarla durante su
+                                primer inicio de sesión.
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.username.id_for_label }}"
+                                       class="form-label">
+                                    Nombre de usuario
+                                </label>
+
+                                {{ form.username }}
+
+                                {% for error in form.username.errors %}
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.password_temporal.id_for_label }}"
+                                       class="form-label">
+                                    Contraseña temporal
+                                </label>
+
+                                {{ form.password_temporal }}
+
+                                {% for error in form.password_temporal.errors %}
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
+                                <div class="form-text">
+                                    Mínimo 8 caracteres.
+                                    El empleado deberá cambiarla al
+                                    iniciar sesión por primera vez.
+                                </div>
+                            </div>
+
+                        {% else %}
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3">
+                                Cuenta de usuario
+                            </h5>
+
+                            <div class="alert alert-secondary">
+                                Usuario:
+                                <strong>{{ empleado.usuario.username }}</strong>
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-between mt-4">
+
+                            <a href="{% url 'empleados_lista' %}"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                {% if empleado %}
+                                    Guardar cambios
+                                {% else %}
+                                    Crear empleado
+                                {% endif %}
+
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
-
             </div>
 
-
-            <div class="row">
-
-                <div class="col-md-6 mb-3">
-
-                    <label
-                        for="{{ form.rut.id_for_label }}"
-                        class="form-label"
-                    >
-                        RUT
-                    </label>
-
-                    {{ form.rut }}
-
-                    {% for error in form.rut.errors %}
-                        <div class="text-danger small">
-                            {{ error }}
-                        </div>
-                    {% endfor %}
-
-                </div>
-
-
-                <div class="col-md-6 mb-3">
-
-                    <label
-                        for="{{ form.telefono.id_for_label }}"
-                        class="form-label"
-                    >
-                        Teléfono
-                    </label>
-
-                    {{ form.telefono }}
-
-                    {% for error in form.telefono.errors %}
-                        <div class="text-danger small">
-                            {{ error }}
-                        </div>
-                    {% endfor %}
-
-                </div>
-
-            </div>
-
-
-            <div class="d-flex gap-2 mt-3">
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    💾 Guardar
-                </button>
-
-                <a
-                    href="{% url 'empleados_lista' %}"
-                    class="btn btn-outline-secondary"
-                >
-                    Cancelar
-                </a>
-
-            </div>
-
-        </form>
-
+        </div>
     </div>
 
 </div>
 
 {% endblock %}
+```
