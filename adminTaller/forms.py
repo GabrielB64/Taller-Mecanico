@@ -106,7 +106,7 @@ class HerramientaForm(BootstrapModelForm):
 
         fields = [
             "nombre",
-            "descripcion",
+            "precio",
             "cantidad",
         ]
 
@@ -118,7 +118,7 @@ class RepuestoForm(BootstrapModelForm):
 
         fields = [
             "nombre",
-            "descripcion",
+            "precio",
             "cantidad",
         ]
 
@@ -132,6 +132,7 @@ class TrabajoForm(BootstrapModelForm):
             "estado",
             "criticidad",
             "descripcion",
+            "patente",
             "hechos",
         ]
 

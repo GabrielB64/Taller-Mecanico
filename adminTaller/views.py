@@ -85,13 +85,23 @@ def admin_dashboard(request):
 @login_required
 def trabajos_lista(request):
 
-    trabajos = Trabajo.objects.all().order_by("-id")
+    trabajos = Trabajo.objects.all()
+
+    # Obtener patente ingresada en el buscador
+    busqueda = request.GET.get('q', '').strip()
+
+    # Filtrar trabajos por patente
+    if busqueda:
+        trabajos = trabajos.filter(
+            patente__icontains=busqueda
+        )
 
     return render(
         request,
-        "trabajos/lista.html",
+        'trabajos/lista.html',
         {
-            "trabajos": trabajos
+            'trabajos': trabajos,
+            'q': busqueda,
         }
     )
 
@@ -360,15 +370,46 @@ def empleado_eliminar(request, pk):
 @login_required
 def herramientas_lista(request):
 
-    herramientas = Herramienta.objects.all().order_by(
-        "nombre"
-    )
+    herramientas = Herramienta.objects.all()
+
+    # Buscador por nombre
+    busqueda = request.GET.get('q', '').strip()
+
+    if busqueda:
+        herramientas = herramientas.filter(
+            nombre__icontains=busqueda
+        )
+
+    # Precio mínimo
+    precio_min = request.GET.get('precio_min', '').strip()
+
+    if precio_min:
+        try:
+            herramientas = herramientas.filter(
+                precio__gte=int(precio_min)
+            )
+        except ValueError:
+            pass
+
+    # Precio máximo
+    precio_max = request.GET.get('precio_max', '').strip()
+
+    if precio_max:
+        try:
+            herramientas = herramientas.filter(
+                precio__lte=int(precio_max)
+            )
+        except ValueError:
+            pass
 
     return render(
         request,
-        "herramientas/lista.html",
+        'herramientas/lista.html',
         {
-            "herramientas": herramientas
+            'herramientas': herramientas,
+            'q': busqueda,
+            'precio_min': precio_min,
+            'precio_max': precio_max,
         }
     )
 
@@ -486,15 +527,46 @@ def herramienta_eliminar(request, pk):
 @login_required
 def repuestos_lista(request):
 
-    repuestos = Repuestos.objects.all().order_by(
-        "nombre"
-    )
+    repuestos = Repuestos.objects.all()
+
+    # Buscador por nombre
+    busqueda = request.GET.get('q', '').strip()
+
+    if busqueda:
+        repuestos = repuestos.filter(
+            nombre__icontains=busqueda
+        )
+
+    # Precio mínimo
+    precio_min = request.GET.get('precio_min', '').strip()
+
+    if precio_min:
+        try:
+            repuestos = repuestos.filter(
+                precio__gte=int(precio_min)
+            )
+        except ValueError:
+            pass
+
+    # Precio máximo
+    precio_max = request.GET.get('precio_max', '').strip()
+
+    if precio_max:
+        try:
+            repuestos = repuestos.filter(
+                precio__lte=int(precio_max)
+            )
+        except ValueError:
+            pass
 
     return render(
         request,
-        "repuestos/lista.html",
+        'repuestos/lista.html',
         {
-            "repuestos": repuestos
+            'repuestos': repuestos,
+            'q': busqueda,
+            'precio_min': precio_min,
+            'precio_max': precio_max,
         }
     )
 

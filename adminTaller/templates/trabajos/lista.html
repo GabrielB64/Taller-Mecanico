@@ -27,6 +27,29 @@
 
 </div>
 
+<form method="GET" class="card border-secondary p-3 mb-4">
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+            <label class="form-label">Buscar Patente</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                name="q" 
+                placeholder="Patente..." 
+                value="{{ q }}" 
+            >
+        </div>
+
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary mt-3">
+            Buscar
+        </button>
+    </div>
+
+</form>
 
 <div class="card shadow-sm">
 
@@ -40,7 +63,8 @@
 
                     <tr>
                         <th>ID</th>
-                        <th>Estado</th>
+                        <th>Patente</th>                        
+                        <th>Estado</th>                        
                         <th>Criticidad</th>
                         <th>Descripción</th>
                         <th>Acciones</th>
@@ -56,6 +80,10 @@
 
                         <td>
                             #{{ trabajo.id }}
+                        </td>
+
+                        <td>
+                            {{ trabajo.patente }}
                         </td>
 
                         <td>
@@ -112,7 +140,6 @@
                             {% endif %}
 
                         </td>
-
 
                         <td>
 

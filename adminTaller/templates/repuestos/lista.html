@@ -30,7 +30,66 @@
     {% endif %}
 
 </div>
+<form method="GET" class="card border-secondary p-3 mb-4">
 
+    <div class="row g-3">
+
+        <div class="col-md-4">
+            <label class="form-label">Buscar repuesto</label>
+
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Nombre del repuesto..."
+                value="{{ q }}"
+            >
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Precio mínimo</label>
+
+            <input
+                type="number"
+                name="precio_min"
+                class="form-control"
+                placeholder="Desde"
+                min="0"
+                value="{{ precio_min }}"
+            >
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Precio máximo</label>
+
+            <input
+                type="number"
+                name="precio_max"
+                class="form-control"
+                placeholder="Hasta"
+                min="0"
+                value="{{ precio_max }}"
+            >
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+
+            <button type="submit" class="btn btn-primary w-100">
+                Buscar
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'repuestos_lista' %}"
+           class="btn btn-sm">
+            Limpiar filtros
+        </a>
+    </div>
+
+</form>
 
 <div class="card shadow-sm">
 
@@ -45,7 +104,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Repuesto</th>
-                        <th>Descripción</th>
+                        <th>Precio</th>
                         <th class="text-center">
                             Existencias
                         </th>
@@ -71,7 +130,7 @@
                         </td>
 
                         <td>
-                            {{ repuesto.descripcion|truncatechars:80 }}
+                            {{ repuesto.precio }}
                         </td>
 
                         <td class="text-center">

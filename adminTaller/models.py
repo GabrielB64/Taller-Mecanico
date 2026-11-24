@@ -14,14 +14,14 @@ class Empleado(models.Model):
 
 class Herramienta(models.Model):
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    cantidad = models.PositiveIntegerField()
+    precio = models.PositiveBigIntegerField(default=0)
+    cantidad = models.PositiveIntegerField(default=0)
 
 class Repuestos(models.Model):
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    cantidad = models.PositiveIntegerField()
-    
+    cantidad = models.PositiveIntegerField(default=0)
+    precio = models.PositiveBigIntegerField(default=0)
+
 class Trabajo(models.Model):
 
     ESTADO_CHOICES = [
@@ -48,6 +48,8 @@ class Trabajo(models.Model):
         choices=CRITICIDAD_CHOICES,
         default='Baja'
     )
+    
+    patente = models.CharField(max_length=10, default='')
 
     descripcion = models.TextField()
     hechos = models.TextField()
